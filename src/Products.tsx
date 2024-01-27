@@ -25,6 +25,7 @@ export function useProducts() {
         (async() => {
             const response = await fetch("https://dummyjson.com/products")
             const json = await response.json() as ProductsData
+            json.products.forEach((p) => p.images = p.images.filter(p => p.indexOf("thumb") === -1))
             setProducts(json.products)
             console.log("loaded: #" + json.products.length)
         })()

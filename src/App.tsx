@@ -1,5 +1,5 @@
 import { Link, Outlet, useParams } from "react-router-dom";
-import { Product, useProducts } from "./Products";
+import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
 import { useMemo } from "react"
 
@@ -38,7 +38,7 @@ export function Products() {
                         ))}
                     </div>
                 </div>
-                <div className="grow flex flex-col bg-blue-300">
+                <div className="grow flex flex-col ">
                     <Outlet></Outlet>
                 </div>
             </div>
@@ -51,11 +51,12 @@ export function ProductsList() {
     const products = useMemo(() => products_,[products_])
     
     return (
-        <div className="grow bg-white flex flex-wrap gap-2 items-start h-1 overflow-y-auto p-4">
+        <div className="grow bg-white flex flex-wrap gap-2 items-center justify-center h-1 overflow-y-auto p-4">
             {products.map((p) => (
-                <div key={p.id} className="bg-gray-100 h-40 p-2 border-solid border border-gray-300">
+                <div key={p.id} className="bg-gray-100 h-42 p-2 border-solid border border-gray-300">
                     <Link to={"/products/" + p.id}>
-                        <img className="w-auto h-32" src={p.thumbnail} alt={p.title} />
+                        <img className="w-auto h-40 object-cover" src={p.thumbnail} alt={p.title} />
+                        <div className="text-sm font-bold text-center mt-2 text-ellipsis overflow-x-hidden">{p.title}</div>
                     </Link>
                 </div>
             ))}
