@@ -96,8 +96,8 @@ export function WebSocketDisplay() {
     const data = useWebSocketData()
     return (
         <div className="grow bg-gray-100 flex flex-col items-center justify-center">
-            <h1>WebSocket Data</h1>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+            <h1 className="text-2xl">WebSocket Data</h1>
+            <pre>{data}</pre>
         </div>
     );
 }
