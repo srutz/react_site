@@ -1,15 +1,21 @@
 import { Link, Outlet, useParams } from "react-router-dom";
 import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
-import { useMemo } from "react"
+import { useContext, useMemo } from "react"
+import { Cart, CartContext } from "./CartContext"
 
 export function Menubar() {
+    const cartContext = useContext(CartContext)
+    console.log("render menubar")
+    console.table(cartContext)
     return (
         <div className="h-12 flex flex-row items-center gap-4 p-2 bg-gray-100 border-b border-gray-300 border-b-1">
             <div className="text-3xl">⧗</div>
             <div className="text-1xl uppercase font-bold text-orange-700">My App</div>
             <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
+            <div className="grow"></div>
+            <div>{cartContext?.items.length}</div>
         </div>
     );
 }
@@ -86,11 +92,13 @@ export function ProductDetails() {
 
 export function App() {
     return (
-        <div className="grow flex flex-col h-1">
-            <Menubar></Menubar>
-            <div className="grow flex flex-col items-stretch justify-center h-1 overflow-y-auto">
-                <Outlet></Outlet>
+        <Cart>
+            <div className="grow flex flex-col h-1">
+                <Menubar></Menubar>
+                <div className="grow flex flex-col items-stretch justify-center h-1 overflow-y-auto">
+                    <Outlet></Outlet>
+                </div>
             </div>
-        </div>
+        </Cart>
     );
 }

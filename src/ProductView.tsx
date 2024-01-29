@@ -1,7 +1,8 @@
 // product panel that shows the product with title and image, description, price, and stock
 
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useState } from "react"
 import { Product } from "./Products"
+import { CartContext } from "./CartContext"
 
 export function ProductView({ product }: { product: Product }) {
 
@@ -12,9 +13,9 @@ export function ProductView({ product }: { product: Product }) {
 
     const [imageIndex, setImageIndex] = useState(0)
     const [opacity, setOpacity] = useState(1)
-    console.log("ProductView render " + imageIndex)
-    console.table(product.images)
-
+    //console.log("ProductView render " + imageIndex)
+    //console.table(product.images)
+    const cartContext = useContext(CartContext)
 
     const changeImage = (delta: number) => {
         setOpacity(0)
@@ -40,6 +41,9 @@ export function ProductView({ product }: { product: Product }) {
         <div className="p-top-8 h-16 pt-3 text-sm overflow-hidden">{product.description}</div>
         <div className="flex overflow-hidden">
             <div className="font-bold">{product.price.toFixed(2)} €</div>
+            <div className="grow"></div>
+            <div className="p-2 w-12 cursor-pointer select-none text-center border border-gray-200" onClick={() => {cartContext?.addToCart(product.id, -1)}}>-</div>
+            <div className="p-2 w-12 cursor-pointer select-none text-center border border-gray-200" onClick={() => {cartContext?.addToCart(product.id, 1)}}>+</div>
             <div className="grow"></div>
             <div>Bestand: <span className="font-bold">{product.stock}</span></div>
         </div>
