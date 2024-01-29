@@ -3,6 +3,7 @@ import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
 import { useContext, useMemo } from "react"
 import { Cart, CartContext } from "./CartContext"
+import { useWebSocketData } from "./websocket/WebSocketData"
 
 export function Menubar() {
     const cartContext = useContext(CartContext)
@@ -13,6 +14,7 @@ export function Menubar() {
             <div className="text-3xl">⧗</div>
             <div className="text-1xl uppercase font-bold text-orange-700">My App</div>
             <Link to="/">Home</Link>
+            <Link to="/websocket">Websocket</Link>
             <Link to="/products">Products</Link>
             <div className="grow"></div>
             <div>{cartContext?.items.length}</div>
@@ -86,6 +88,16 @@ export function ProductDetails() {
     return (
         <div className="grow bg-gray-100 flex flex-col items-center justify-center">
             <ProductView product={product}/>
+        </div>
+    );
+}
+
+export function WebSocketDisplay() {
+    const data = useWebSocketData()
+    return (
+        <div className="grow bg-gray-100 flex flex-col items-center justify-center">
+            <h1>WebSocket Data</h1>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
     );
 }

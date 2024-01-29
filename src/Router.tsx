@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { App, Content, Products, ProductsList, ProductDetails } from "./App";
+import { App, Content, Products, ProductsList, ProductDetails, WebSocketDisplay } from "./App";
 
 const router = createBrowserRouter([
     {
@@ -10,6 +10,10 @@ const router = createBrowserRouter([
             {
                 path: "",
                 element: <Content></Content>,
+            },
+            {
+                path: "websocket",
+                element: <WebSocketDisplay></WebSocketDisplay>,
             },
             {
                 path: "products",
