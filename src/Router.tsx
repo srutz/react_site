@@ -4,28 +4,25 @@ import { App, Content, Products, ProductsList, ProductDetails, WebSocketDisplay 
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <App />,
+        path: "/", element: <App />,
         children: [
             {
-                path: "",
-                element: <Content></Content>,
+                path: "/imprint", element: <h1>impressum</h1>,
             },
             {
-                path: "websocket",
-                element: <WebSocketDisplay></WebSocketDisplay>,
+                path: "", element: <Content></Content>,
             },
             {
-                path: "products",
-                element: <Products></Products>,
+                path: "websocket", element: <WebSocketDisplay></WebSocketDisplay>,
+            },
+            {
+                path: "products", element: <Products></Products>,
                 children: [
                     {
-                        path: "",
-                        element: <ProductsList></ProductsList>,
+                        path: "", element: <ProductsList></ProductsList>,
                     },
                     {
-                        path: ":id",
-                        element: <ProductDetails></ProductDetails>,
+                        path: ":id",  element: <ProductDetails></ProductDetails>,
                     },
                 ]
             }

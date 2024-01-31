@@ -5,7 +5,6 @@ import { Product } from "./Products"
 import { CartContext } from "./CartContext"
 
 export function ProductView({ product }: { product: Product }) {
-
     useEffect(() => {
         console.log("ProductView useEffect")
         setImageIndex(0)

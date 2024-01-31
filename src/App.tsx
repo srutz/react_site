@@ -1,23 +1,24 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import {Link, NavLink, Outlet, useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
-import { useContext, useMemo } from "react"
-import { Cart, CartContext } from "./CartContext"
+import {ReactNode, useMemo} from "react"
+import { Cart } from "./CartContext"
 import { useWebSocketData } from "./websocket/WebSocketData"
+import { ShoppingCart } from "./ShoppingCart";
+
 
 export function Menubar() {
-    const cartContext = useContext(CartContext)
-    console.log("render menubar")
-    console.table(cartContext)
+    const navigate = useNavigate()
     return (
         <div className="h-12 flex flex-row items-center gap-4 p-2 bg-gray-100 border-b border-gray-300 border-b-1">
             <div className="text-3xl">⧗</div>
             <div className="text-1xl uppercase font-bold text-orange-700">My App</div>
-            <Link to="/">Home</Link>
-            <Link to="/websocket">Websocket</Link>
-            <Link to="/products">Products</Link>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/websocket">Websocket</NavLink>
+            <NavLink to="/products">Products</NavLink>
+            <NavLink to="/imprint">Imprint</NavLink>
             <div className="grow"></div>
-            <div>{cartContext?.items.length}</div>
+            <ShoppingCart/>
         </div>
     );
 }
@@ -79,6 +80,7 @@ export function ProductDetails() {
         return <h1>Productid not found</h1>
     }
     const id = parseInt(params.id)
+    const color = params.color
     const product = products.find((p) => p.id === id);
     if (!product) {
         return <div className="grow bg-gray-100 flex flex-col items-center justify-center">
@@ -87,7 +89,7 @@ export function ProductDetails() {
     console.log("id=" + params.id);
     return (
         <div className="grow bg-gray-100 flex flex-col items-center justify-center">
-            <ProductView product={product}/>
+            <ProductView product={product} />
         </div>
     );
 }
