@@ -18,15 +18,17 @@ export function MemoryCard(props : MemoryCardProps) {
     //const [ flipped, setFlipped ] = useState(true)
     const content = "" + [card.type]
     return (
-        <div className="memory-card" {...rest} >
-            <div className={`flipper ${card.flipped ? 'flip' : ''}`}>
-                <div className="front flex items-center justify-center">
-                    {content}
+        <div className="memory-card cursor-pointer" {...rest} >
+            {card.alive && (
+                <div className={`flipper ${card.flipped ? 'flip' : ''}`}>
+                    <div className="front flex items-center justify-center">
+                        {content}
+                    </div>
+                    <div className="back flex items-center justify-center">
+                        X
+                    </div>
                 </div>
-                <div className="back flex items-center justify-center">
-                    X
-                </div>
-            </div>
+            )}
         </div>
     )
 }

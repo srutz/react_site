@@ -33,17 +33,25 @@ export function MemoryView() {
     const [ gameState, setGameState ] = useState<"selecting" | "selectedtwo">("selecting")
 
     const handleClick = (index: number) => {
+        const newCardsState = [...cardsState]
+        const card = newCardsState[index]
+        if (!card.alive) {
+            return
+        }
         if (gameState == "selecting") {
-            const newCardsState = [...cardsState]
-            const card = newCardsState[index]
             card.flipped = !card.flipped
             setCardsState(newCardsState)
-            const nonFlippedCount = newCardsState.filter(card => !card.flipped).length
-            if (nonFlippedCount == 2) {
+            const nonFlipped = newCardsState.filter(card => !card.flipped)
+            if (nonFlipped.length == 2) {
                 setGameState("selectedtwo")
+                const card1 = nonFlipped[0]
+                const card2 = nonFlipped[1]
                 setTimeout(() => {
                     const newCardsState = [...cardsState]
                     newCardsState.forEach(card => card.flipped = true)
+                    if (card1.type == card2.type) {
+                        card1.alive = card2.alive = false
+                    }
                     setCardsState(newCardsState)
                     setGameState("selecting")
                 }, 1_000)
