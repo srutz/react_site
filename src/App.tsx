@@ -1,21 +1,23 @@
 import {Link, NavLink, Outlet, useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
-import {ReactNode, useMemo} from "react"
+import { useMemo} from "react"
 import { Cart } from "./CartContext"
 import { useWebSocketData } from "./websocket/WebSocketData"
 import { ShoppingCart } from "./ShoppingCart";
 
 
 export function Menubar() {
-    const navigate = useNavigate()
     return (
         <div className="h-12 flex flex-row items-center gap-4 p-2 bg-gray-100 border-b border-gray-300 border-b-1">
             <div className="text-3xl">⧗</div>
             <div className="text-1xl uppercase font-bold text-orange-700">My App</div>
             <NavLink to="/">Home</NavLink>
+            {false &&
             <NavLink to="/websocket">Websocket</NavLink>
+            }
             <NavLink to="/products">Products</NavLink>
+            <NavLink to="/quotes">Quotes</NavLink>
             <NavLink to="/imprint">Imprint</NavLink>
             <div className="grow"></div>
             <ShoppingCart/>
