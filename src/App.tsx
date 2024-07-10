@@ -73,7 +73,8 @@ function useQuotesOld() {
 
 export function Content() {
     const { error, data, isPending } = useQuery({
-        queryKey: ['repoData'],
+        queryKey: ['key1'],
+        staleTime: 500,
         queryFn: async () => {
             const response = await fetch('https://dummyjson.com/quotes?limit=3', {})
             return await response.json() as QuoteResponse
