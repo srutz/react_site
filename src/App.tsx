@@ -1,14 +1,15 @@
 import {Link, NavLink, Outlet, useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import { useProducts } from "./Products";
 import { ProductView } from "./ProductView"
-import {ReactNode, useMemo} from "react"
+import { useEffect, useMemo, useState} from "react"
 import { Cart } from "./CartContext"
 import { useWebSocketData } from "./websocket/WebSocketData"
 import { ShoppingCart } from "./ShoppingCart";
+import {QueryClient, QueryClientProvider, useQuery} from "@tanstack/react-query";
 
+const queryClient = new QueryClient()
 
 export function Menubar() {
-    const navigate = useNavigate()
     return (
         <div className="h-12 flex flex-row items-center gap-4 p-2 bg-gray-100 border-b border-gray-300 border-b-1">
             <div className="text-3xl">⧗</div>
@@ -23,13 +24,69 @@ export function Menubar() {
     );
 }
 
+
+type Quote = {
+    id: number,
+    quote: string,
+    author: string
+}
+type QuoteResponse = {
+    total: number,
+    skip: number,
+    limit: number,
+    quotes: Quote[]
+}
+
+async function getQuotes() {
+    const r = await fetch("https://dummyjson.com/quotes?limit=3", { })
+    console.log("get Quotes Part1 Finished")
+    const data = await r.json() as QuoteResponse
+    return data
+}
+
+async function delay(delayMs: number) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => { resolve(100) }, delayMs)
+    })
+}
+
+function useQuotesOld() {
+    const [ data, setData] = useState<Quote[]>()
+    const [ isPending, setIsPending ] = useState(false)
+    const [ error, setError ] = useState<any|undefined>()
+    useEffect(() => { /* run code on first render / onMounted */
+        (async () => {
+            setIsPending(true)
+            try {
+                const resultData = await getQuotes()
+                setData(resultData.quotes);
+                await delay(3_000)
+            } catch (e) {
+                setError(e)
+            } finally { setIsPending(false) }
+        })()
+    }, [])
+    return { isPending, error, data }
+}
+
+
+
 export function Content() {
+    const { error, data, isPending } = useQuery({
+        queryKey: ['repoData'],
+        queryFn: async () => {
+            const response = await fetch('https://dummyjson.com/quotes?limit=3', {})
+            return await response.json() as QuoteResponse
+        },
+    })
+    if (error) { return <div>An Error has occured</div> }
+    if (isPending) { return <div>Loading...</div> }
     return (
-        <div className="grow flex flex-col items-stretch justify-center">
-            <div className="uppercase text-6xl font-bold text-center">The Product app</div>
+        <div className="grow flex flex-col items-stretch justify-center pt-16">
+            <pre>{JSON.stringify(data.quotes, null, 4)}</pre>
             <Outlet></Outlet>
         </div>
-    );
+    )
 }
 
 export function Products() {
@@ -106,13 +163,15 @@ export function WebSocketDisplay() {
 
 export function App() {
     return (
-        <Cart>
-            <div className="grow flex flex-col h-1">
-                <Menubar></Menubar>
-                <div className="grow flex flex-col items-stretch justify-center h-1 overflow-y-auto">
-                    <Outlet></Outlet>
+        <QueryClientProvider client={queryClient}>
+            <Cart>
+                <div className="grow flex flex-col h-1">
+                    <Menubar></Menubar>
+                    <div className="grow flex flex-col items-stretch justify-center h-1 overflow-y-auto">
+                        <Outlet></Outlet>
+                    </div>
                 </div>
-            </div>
-        </Cart>
+            </Cart>
+        </QueryClientProvider>
     );
 }
