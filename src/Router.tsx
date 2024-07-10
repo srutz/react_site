@@ -4,11 +4,43 @@ import { App, Content, Products, ProductsList, ProductDetails, WebSocketDisplay 
 import { QuotesView } from "./Quotes";
 import { AppStateView } from "./AppStateView";
 import { MemoryView } from "./memory/MemoryView";
+import {useEffect, useRef, useState} from "react";
+
+function giveMeNow() {
+    console.log("giveMeNow is called")
+    return new Date()
+}
+
+function Holweide() {
+    const [ autoCounter, setAutoCounter ] = useState(20)
+    useEffect(() => {
+        const id = setInterval(() => {
+            setAutoCounter(autoCounter - 1)
+        }, 1_000)
+        return () => {
+            clearInterval(id)
+        }
+    }, [ autoCounter ])
+    if (autoCounter <= 0) {
+        return (<h1>Ihr Rabatt ist endgültig abgelaufen</h1>)
+    }
+    return (
+        <div className="flex flex-col grow" style={{
+            alignItems: "center",
+            justifyContent: "center"
+        }}>
+            <div className="text-3xl">{autoCounter}</div>
+        </div>
+    )
+}
 
 const router = createBrowserRouter([
     {
         path: "/", element: <App />,
         children: [
+            {
+                path: "/holweide", element: <Holweide/>,
+            },
             {
                 path: "/imprint", element: <h1>impressum</h1>,
             },

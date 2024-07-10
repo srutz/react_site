@@ -1,0 +1,59 @@
+.splitter {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: 1px;
+    position: relative;
+    --draghandlewidth: 8px;
+}
+
+.splitter-dragpane {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    z-index: 100000;
+    cursor: col-resize;
+    /*
+    background-color: rgba(255, 255, 255, 0.2);
+    */
+}
+
+.splitter-handle {
+    width: var(--draghandlewidth);
+    background-color: white;
+    cursor: col-resize;
+}
+
+.dark-scheme .splitter-handle {
+    background-color: black;
+}
+
+.splitter-overlayhandle {
+    position: absolute;
+    width: var(--draghandlewidth);
+    background-color: rgb(0, 0, 0, 0.15);
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.dark-scheme .splitter-overlayhandle {
+    background-color: rgb(1, 1, 1, 0.65);
+}
+
+.splitter-firstpanel {
+    display: flex;
+    width: calc(max(100px, 50vw));
+    flex-direction: column;
+    /*background-color: green;*/
+}
+
+.splitter-secondpanel {
+    display: flex;
+    width: 1px;
+    flex-direction: column;
+    flex-grow: 1;
+    /*background-color: red;*/
+}
