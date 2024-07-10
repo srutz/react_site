@@ -2,8 +2,12 @@
 import { useContext } from "react"
 import { CartContext } from "./CartContext"
 
+export function useShoppingCart() {
+    return useContext(CartContext)
+}
+
 export function ShoppingCart() {
-    const cartContext = useContext(CartContext)
+    const cartContext = useShoppingCart()
     console.log("render menubar")
     console.table(cartContext?.items)
 

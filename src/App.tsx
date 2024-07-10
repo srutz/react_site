@@ -6,6 +6,8 @@ import { Cart } from "./CartContext"
 import { useWebSocketData } from "./websocket/WebSocketData"
 import { ShoppingCart } from "./ShoppingCart";
 import {TransitionLink} from "./TransitionLink.tsx";
+import {AppState, useAppState} from "./AppState.tsx";
+import {Imprint} from "./Router.tsx";
 
 
 export function Menubar() {
@@ -24,10 +26,16 @@ export function Menubar() {
 }
 
 export function Content() {
+    useAppState()
     return (
         <div className="grow flex flex-col items-stretch justify-center">
             <div className="uppercase text-6xl font-bold text-center">The Product app</div>
             <Outlet></Outlet>
+            <button onClick={() => {
+                AppState.getInstance().setUsermail("frank123@tomas.de")
+            }}>Change Username</button>
+            <div>Username: {AppState.getInstance().getUsermail()}</div>
+            <Imprint></Imprint>
         </div>
     );
 }

@@ -5,6 +5,8 @@ import { QuotesView } from "./Quotes";
 import { AppStateView } from "./AppStateView";
 import { MemoryView } from "./memory/MemoryView";
 import {useEffect, useRef, useState} from "react";
+import {AppState, useAppState} from "./AppState.tsx";
+import {useShoppingCart} from "./ShoppingCart.tsx";
 
 function giveMeNow() {
     console.log("giveMeNow is called")
@@ -34,6 +36,31 @@ function Holweide() {
     )
 }
 
+export function CartView() {
+    const cart = useShoppingCart()
+    if (!cart || cart.items.length == 0) {
+        return <div>Kauf was</div>
+    }
+    return (
+        <div className="flex flex-col grow gap-2">
+            {cart?.items.map((item, index) => (
+                <div key={index}>{item.productId} / {item.quantity}</div>
+            ))}
+        </div>
+    )
+}
+
+export function Imprint() {
+    useAppState()
+    const usermail = AppState.getInstance().getUsermail()
+    return (
+        <div className="flex flex-col grow">
+            {usermail}
+        </div>
+    )
+
+}
+
 const router = createBrowserRouter([
     {
         path: "/", element: <App />,
@@ -42,7 +69,10 @@ const router = createBrowserRouter([
                 path: "/holweide", element: <Holweide/>,
             },
             {
-                path: "/imprint", element: <h1>impressum</h1>,
+                path: "/imprint", element: <Imprint/>,
+            },
+            {
+                path: "/cart", element: <CartView/>,
             },
             {
                 path: "", element: <Content></Content>,
