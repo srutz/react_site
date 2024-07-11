@@ -4,8 +4,9 @@
     font-size: 96px;
     perspective: 1000px;
     user-select: none;
-    overflow: hidden;
+    Xoverflow: hidden;
 }
+
 
 .flipper {
     position: relative;
@@ -24,13 +25,20 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: 1px solid #333;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
 }
 
 .back {
-    background-color: aquamarine;
+    @apply bg-gradient-to-r from-white via-gray-200 to-gray-300;
     transform: rotateY(180deg);
 }
 
 .front {
-    background-color: red;
+    background-color: transparent;
 }

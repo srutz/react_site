@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, CSSProperties } from "react";
 import "./memory.css";
 
 const animals = "🐶🐱🐭🐹🐰🦊🐻🐼🐻‍❄️🐨🐯🦁🐮🐷🐽🐸🐵🦍🦧🦮🐕🐩🐈🐅🐆🦓🦌🐎🦄🐐🐑🐏🐖🦙🐂🐃🦬🐄🐮🦏🦛🦣🐘🦒🦘🦥🦦🦨🦡🦫🦦🐿️🦔🦇🐓🦃🦆🦢🦉🦩🦜🦤🐦🦅🦇🦤🦋🐝🐞🦗🪳🕷️🦂🦟🪰🦠🐢🐍🐊🦎🐉🦕🦖🦭🐳🐋🦈🐬🐟🐠🐡🦑🦐🦞🦀🐚🐌";
@@ -7,6 +7,7 @@ export type Card = {
     type: number
     flipped: boolean
     alive: boolean
+    url: string
 }
 
 export type MemoryCardProps = { 
@@ -15,17 +16,17 @@ export type MemoryCardProps = {
 
 export function MemoryCard(props : MemoryCardProps) {
     const { card, ...rest} = props
-    //const [ flipped, setFlipped ] = useState(true)
     const content = "" + [card.type]
+    const frontStyle: CSSProperties = {
+        backgroundImage: `url(${card.url})`,
+    }
     return (
-        <div className="memory-card cursor-pointer" {...rest} >
+        <div className={`memory-card cursor-pointer`} {...rest} >
             {card.alive && (
-                <div className={`flipper ${card.flipped ? 'flip' : ''}`}>
-                    <div className="front flex items-center justify-center">
-                        {content}
+                <div className={`memory-card-body flipper ${card.flipped ? 'flip' : ''}`}>
+                    <div className="front flex items-center justify-center" style={frontStyle}>
                     </div>
                     <div className="back flex items-center justify-center">
-                        X
                     </div>
                 </div>
             )}
